@@ -27,8 +27,20 @@ export default function HomeScreen() {
     localizedLocations[0]
   );
   const [currentStyle, setCurrentStyle] = useState<MapStyleOption>(MAP_STYLES[0]);
-  const [isTokenModalVisible, setIsTokenModalVisible] = useState(false);
-  const [customToken, setCustomToken] = useState<string>(MAPBOX_ACCESS_TOKEN);
+  const [customToken, setCustomToken] = useState<string>(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const saved = localStorage.getItem('MAPBOX_ACCESS_TOKEN');
+      if (saved && saved.startsWith('pk.')) return saved;
+    }
+    return MAPBOX_ACCESS_TOKEN;
+  });
+
+  const handleSaveToken = (newToken: string) => {
+    setCustomToken(newToken);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('MAPBOX_ACCESS_TOKEN', newToken);
+    }
+  };
 
   const filteredLocations = useMemo(() => {
     if (!searchQuery.trim()) return localizedLocations;
@@ -102,7 +114,7 @@ export default function HomeScreen() {
         visible={isTokenModalVisible}
         onClose={() => setIsTokenModalVisible(false)}
         customToken={customToken}
-        onSaveToken={setCustomToken}
+        onSaveToken={handleSaveToken}
       />
     </View>
   );

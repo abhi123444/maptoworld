@@ -32,11 +32,21 @@ export default function MapboxContainerWeb({
   const [mapLoaded, setMapLoaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const activeToken = customToken && customToken.trim().length > 15 ? customToken.trim() : MAPBOX_ACCESS_TOKEN;
+  const isTokenValid = Boolean(
+    activeToken &&
+    activeToken !== 'YOUR_MAPBOX_ACCESS_TOKEN' &&
+    activeToken.startsWith('pk.') &&
+    activeToken.length > 20
+  );
 
   // Load Mapbox GL JS & CSS dynamically for web environment
   useEffect(() => {
     let isMounted = true;
+
+    if (!isTokenValid) {
+      setErrorMsg('Mapbox Access Token is missing or invalid. Please enter a valid Mapbox Public Access Token (pk.eyJ...) using the key icon at top or below.');
+      return;
+    }
 
     const loadMapboxScript = async () => {
       try {
