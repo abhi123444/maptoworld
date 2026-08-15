@@ -32,6 +32,8 @@ export default function MapboxContainerWeb({
   const [mapLoaded, setMapLoaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const activeToken = customToken && customToken.trim().length > 15 ? customToken.trim() : MAPBOX_ACCESS_TOKEN;
+
   const isTokenValid = Boolean(
     activeToken &&
     activeToken !== 'YOUR_MAPBOX_ACCESS_TOKEN' &&
@@ -360,7 +362,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#090D16',
   },
   loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...(StyleSheet.absoluteFill as object),
     backgroundColor: 'rgba(9, 13, 22, 0.85)',
     justifyContent: 'center',
     alignItems: 'center',

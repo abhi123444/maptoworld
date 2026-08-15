@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   heroGradientOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...(StyleSheet.absoluteFill as object),
     backgroundColor: 'rgba(15, 23, 42, 0.45)',
   },
   heroBadgeRow: {
