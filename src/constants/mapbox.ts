@@ -30,6 +30,9 @@ export const CUSTOM_ASSETS_STYLE = customMapStyle;
 
 export const MAPBOX_ACCESS_TOKEN =
   process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN ||
+  process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ||
+  process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ||
+  process.env.MAPBOX_ACCESS_TOKEN ||
   'YOUR_MAPBOX_ACCESS_TOKEN';
 
 export const DEFAULT_INITIAL_REGION = {
